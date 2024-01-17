@@ -1,19 +1,110 @@
+definitions:
+  Model.Item:
+    properties:
+      id:
+        type: integer
+      itemBBD:
+        type: integer
+      itemCount:
+        type: integer
+      itemEAN:
+        type: integer
+      itemName:
+        type: string
+      updatedAt:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /example/helloworld:
+  /api/additem:
+    post:
+      consumes:
+      - application/json
+      description: Add an item by barcode number
+      parameters:
+      - description: EAN (barcode) number
+        in: query
+        name: ean
+        required: true
+        type: string
+      - description: MHD (expiration date)
+        in: query
+        name: mhd
+        required: true
+        type: string
+      - description: Count (amount of item to add)
+        in: query
+        name: count
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: add item
+      tags:
+      - add
+  /api/deleteitem:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an item by EAD, MHD, or ID
+      parameters:
+      - description: EAD (barcode) number
+        in: query
+        name: ead
+        type: string
+      - description: MHD (expiration date)
+        in: query
+        name: mhd
+        type: string
+      - description: Item ID
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: delete item
+      tags:
+      - delete
+  /api/getItems/{id}:
     get:
       consumes:
       - application/json
-      description: do ping
+      description: Get all food items from the database or a specific item by ID
+      parameters:
+      - description: Item ID to get a specific item
+        in: path
+        name: id
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
-      summary: ping example
+            items:
+              $ref: '#/definitions/Model.Item'
+            type: array
+      summary: Get all food items or a specific item by ID
       tags:
-      - example
+      - get
+  /api/viewitems:
+    get:
+      consumes:
+      - application/json
+      description: View items that expire in the next 3 days or earlier
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: view items expiring soon
+      tags:
+      - view
 swagger: "2.0"

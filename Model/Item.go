@@ -1,15 +1,14 @@
 package Model
 
 import (
-	"gorm.io/gorm"
 	"time"
 )
 
 type Item struct {
 	ID        uint `gorm:"primaryKey"`
-	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
-	ItemName  string         `gorm:"index"`
-	ItemBBD   time.Time      `gorm:"index"` // englisch für mhd
+	ItemName  string `gorm:"index"`
+	ItemEAN   int64  `gorm:"column:item_ean;index;quoted"`
+	ItemBBD   int64  `gorm:"column:item_bbd;index;quoted"`
+	ItemCount uint   `gorm:"index"`
 }
