@@ -10,11 +10,10 @@ import (
 
 // @Summary view items expiring soon
 // @Description View items that expire in the next 3 days or earlier
-// @Tags view
 // @Accept json
 // @Produce json
 // @Success 200
-// @Router /api/viewitems [get]
+// @Router /api/viewexpiringitems [get]
 func ViewItemsExpiringSoon(c *gin.Context) {
 	db := Config.DB
 
@@ -23,7 +22,7 @@ func ViewItemsExpiringSoon(c *gin.Context) {
 
 	// Abfrage für Artikel, die in den nächsten 3 Tagen oder früher ablaufen
 	var expiringItems []Model.Item
-	result := db.Where("ItemBBD <= ?", threeDaysFromNow.Unix()).Find(&expiringItems)
+	result := db.Where("\"item_ean\" <= ?", threeDaysFromNow.Unix()).Find(&expiringItems)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query database"})
 		return

@@ -12,10 +12,9 @@ func SetupRouter() *gin.Engine {
 	{
 		api.POST("addItem", Controllers.AddItem)
 		api.POST("itemcategory", Controllers.AddItemCategory)
-		api.GET("getItems", Controllers.GetItems)
+		api.GET("getItems", Controllers.GetAllFoodItems)
 		api.DELETE("deleteItems", Controllers.DeleteItem)
-		api.GET("deleteItems", Controllers.ViewItemsExpiringSoon)
-
+		api.GET("viewexpiringitems", Controllers.ViewItemsExpiringSoon)
 	}
 
 	return r

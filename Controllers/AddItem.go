@@ -19,7 +19,6 @@ import _ "image/jpeg"
 // PingExample godoc
 // @Summary add item
 // @Description Add an item by barcode number
-// @Tags add
 // @Accept json
 // @Produce json
 // @Param ean query string true "EAN (barcode) number"
@@ -28,7 +27,6 @@ import _ "image/jpeg"
 // @Success 200
 // @Router /api/additem [post]
 func AddItem(c *gin.Context) {
-	// EAN und MHD aus der Abfrageparameter abrufen
 	ean := c.Query("ean")
 	mhd := c.Query("mhd")
 	count := c.Query("count")
@@ -55,14 +53,12 @@ func AddItem(c *gin.Context) {
 		return
 	}
 
-	// Überprüfen, ob "product" im JSON vorhanden ist
 	product, ok := productInfo["product"].(map[string]interface{})
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Product information is missing or not in the expected format"})
 		return
 	}
 
-	// Den Produktname aus der verschachtelten Struktur abrufen
 	productName, ok := product["product_name"].(string)
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Product name is missing or not a string"})
@@ -89,7 +85,6 @@ func AddItem(c *gin.Context) {
 		return
 	}
 
-	// Überprüfen, ob bereits ein Eintrag mit dem gleichen EAN und der gleichen ItemBBD existiert
 	var existingItem Model.Item
 	result := db.Where("\"item_bbd\" = ? AND \"item_ean\" = ?", mhdInt, ean).First(&existingItem)
 	if result.Error == gorm.ErrRecordNotFound {
@@ -102,8 +97,7 @@ func AddItem(c *gin.Context) {
 		}
 		db.Create(&newItem)
 	} else if result.Error == nil {
-		// Eintrag existiert bereits, erhöhe nur den ItemCount
-		existingItem.ItemCount++
+		existingItem.ItemCount += uint(countUint64) // Increase ItemCount by the specified count
 		db.Save(&existingItem)
 	} else {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query database"})

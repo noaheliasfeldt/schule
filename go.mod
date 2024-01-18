@@ -2,6 +2,7 @@ module feldtstudie-backend
 
 go 1.23
 
+
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.2.0 // indirect

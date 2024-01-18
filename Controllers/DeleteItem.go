@@ -11,7 +11,6 @@ import (
 
 // @Summary delete item
 // @Description Delete an item by EAD, MHD, or ID
-// @Tags delete
 // @Accept json
 // @Produce json
 // @Param ead query string false "EAD (barcode) number"

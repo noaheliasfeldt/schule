@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/additem": {
+        "/api/additem": {p
             "post": {
                 "description": "Add an item by barcode number",
                 "consumes": [
@@ -23,9 +23,6 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
-                ],
-                "tags": [
-                    "add"
                 ],
                 "summary": "add item",
                 "parameters": [
@@ -67,9 +64,6 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
-                "tags": [
-                    "delete"
-                ],
                 "summary": "delete item",
                 "parameters": [
                     {
@@ -100,21 +94,18 @@ const docTemplate = `{
         },
         "/api/getItems/{id}": {
             "get": {
-                "description": "Get all food items from the database or a specific item by ID",
+                "description": "Get all food items from the database or a specific item by ID or EAN",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "tags": [
-                    "get"
-                ],
-                "summary": "Get all food items or a specific item by ID",
+                "summary": "Get all food items or a specific item by EAN",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Item ID to get a specific item",
+                        "type": "string",
+                        "description": "Specifiy EAN to get a specific item",
                         "name": "id",
                         "in": "path"
                     }
@@ -132,7 +123,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/viewitems": {
+        "/api/viewexpiringitems": {
             "get": {
                 "description": "View items that expire in the next 3 days or earlier",
                 "consumes": [
@@ -140,9 +131,6 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
-                ],
-                "tags": [
-                    "view"
                 ],
                 "summary": "view items expiring soon",
                 "responses": {
