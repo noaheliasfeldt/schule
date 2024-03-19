@@ -6,8 +6,9 @@ import (
 	"feldtstudie-backend/Routers"
 	docs "feldtstudie-backend/docs"
 	"fmt"
+
 	swaggerfiles "github.com/swaggo/files"
-	"github.com/swaggo/gin-swagger"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,7 +16,10 @@ import (
 var err error
 
 func main() {
-	dsn := "host=localhost user=postgres password=postgres dbname=gorm port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+
+
+	
+	dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Asia/Shanghai"
 	Config.DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
