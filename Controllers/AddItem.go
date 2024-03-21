@@ -5,14 +5,17 @@ import (
 	"feldtstudie-backend/Config"
 	"feldtstudie-backend/Model"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"io/ioutil"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+
+	_ "image/png"
+
+	_ "image/jpeg"
 )
-import _ "image/png"
-import _ "image/jpeg"
 
 // @BasePath /api/v1
 
@@ -70,13 +73,7 @@ func AddItem(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid MHD format"})
 		return
 	}
-
-	eanInt, err := strconv.ParseInt(ean, 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid MHD format"})
-		return
-	}
-
+	
 	db := Config.DB
 
 	countUint64, err := strconv.ParseUint(count, 10, 64)
@@ -92,7 +89,7 @@ func AddItem(c *gin.Context) {
 		newItem := Model.Item{
 			ItemName:  productName,
 			ItemBBD:   mhdInt,
-			ItemEAN:   eanInt, // Hinzufügen der EAN zum Vergleich
+			ItemEAN:   ean, // Hinzufügen der EAN zum Vergleich
 			ItemCount: uint(countUint64),
 		}
 		db.Create(&newItem)
